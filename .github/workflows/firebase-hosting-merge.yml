@@ -13,15 +13,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies and build
         run: npm ci && npm run build
-
-      - name: Deploy to Firebase Hosting
-        run: npm run deploy-hosting
-        env: 
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      
+        
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412 }}
           channelId: live
           projectId: wrodle-clonev2-3412
+        env: 
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      
