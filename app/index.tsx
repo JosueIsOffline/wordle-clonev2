@@ -1,61 +1,80 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, FlatList } from 'react-native';
 
 export default function Index() {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  interface Product {
+    id: string;
+    name: string;
+  }
+  
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filteredData, setFilteredData] = useState<Product[]>([]);
+  
+  const products: Product[] = [
+    { id: '1', name: 'PlayStation 5' },
+    { id: '2', name: 'Xbox Series X' },
+    { id: '3', name: 'Nintendo Switch' },
+    { id: '4', name: 'PlayStation 4' },
+    { id: '5', name: 'Xbox One' },
+    { id: '6', name: 'Nintendo Switch Lite' },
+    { id: '7', name: 'PlayStation 5 Digital Edition' },
+    { id: '8', name: 'Xbox Series S' },
+    { id: '9', name: 'Nintendo Switch OLED' },
+    { id: '10', name: 'PlayStation VR2' },
+  ];
 
-  const handleLogin = () => {
-    // Aquí podrías agregar la lógica de autenticación
-    if (email && password) {
-      console.log(`Login Successful, Email: ${email}\nPassword: ${password}`);
-      // Aquí iría la lógica de autenticación
-    } else {
-      Alert.alert('Error', 'Please enter both email and password');
-    }
-  };
+    const handleSearch = (query: string) => {
+      setSearchQuery(query);
+      if (query) {
+        const filtered = products.filter((product) =>
+          product.name.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredData(filtered);
+      } else {
+        setFilteredData([]);
+      }
+    };
+  
 
-  return (
-    <View style={styles.container}>
-    <Text style={styles.title}>Searching Algolia</Text>
-    <Text style={styles.title}>Login</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="Email"
-      value={email}
-      onChangeText={setEmail}
-      keyboardType="email-address"
-      autoCapitalize="none"
-    />
-    <TextInput
-      style={styles.input}
-      placeholder="Password"
-      value={password}
-      onChangeText={setPassword}
-      secureTextEntry
-    />
-    <Button title="Login" onPress={handleLogin} />
-  </View>
-  );
+    return (
+      <View style={styles.container}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search consoles"
+          value={searchQuery}
+          onChangeText={handleSearch}
+        />
+        <FlatList
+          data={filteredData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Text style={styles.productItem}>{item.name}</Text>
+          )}
+          ListEmptyComponent={<Text>No hay resultados</Text>}
+        />
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+    height: '100%',
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 24,
-    textAlign: 'center',
-  },
-  input: {
+  searchInput: {
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+  },
+  productItem: {
+    padding: 10,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderColor: '#eee',
   },
 });
