@@ -1,80 +1,104 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, FlatList } from 'react-native';
+
+import React, { useState } from "react";
+import { InstantSearch } from "react-instantsearch-core";
+import { liteClient as algoliasearch } from "algoliasearch/lite";
+import {
+  View,
+  SafeAreaView,
+  StatusBar,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  FlatList,
+  Image,
+} from "react-native";
+
+import InfinityHits from "@/components/InfinityHits";
+import SearchBox from "@/components/SearchBox";
+
+
+const searchClient = algoliasearch('YNZK52PRU0', '441fe7e3eb93f5cbfd485f2aff8ae473')
 
 export default function Index() {
-
-  interface Product {
-    id: string;
-    name: string;
-  }
-  
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredData, setFilteredData] = useState<Product[]>([]);
-  
-  const products: Product[] = [
-    { id: '1', name: 'PlayStation 5' },
-    { id: '2', name: 'Xbox Series X' },
-    { id: '3', name: 'Nintendo Switch' },
-    { id: '4', name: 'PlayStation 4' },
-    { id: '5', name: 'Xbox One' },
-    { id: '6', name: 'Nintendo Switch Lite' },
-    { id: '7', name: 'PlayStation 5 Digital Edition' },
-    { id: '8', name: 'Xbox Series S' },
-    { id: '9', name: 'Nintendo Switch OLED' },
-    { id: '10', name: 'PlayStation VR2' },
-  ];
-
-    const handleSearch = (query: string) => {
-      setSearchQuery(query);
-      if (query) {
-        const filtered = products.filter((product) =>
-          product.name.toLowerCase().includes(query.toLowerCase())
-        );
-        setFilteredData(filtered);
-      } else {
-        setFilteredData([]);
-      }
-    };
-  
-
-    return (
+  return (
+    <SafeAreaView style={styles.safe}>
+      <StatusBar barStyle="light-content"/>
       <View style={styles.container}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search consoles"
-          value={searchQuery}
-          onChangeText={handleSearch}
-        />
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Text style={styles.productItem}>{item.name}</Text>
-          )}
-          ListEmptyComponent={<Text>No hay resultados</Text>}
-        />
+        <InstantSearch searchClient={searchClient} indexName="movie">
+          <SearchBox />
+          <InfinityHits hitComponent={Hit}/>
+        </InstantSearch>
       </View>
-    );
+    </SafeAreaView>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: '#f5f5f5',
-    height: '100%',
-  },
-  searchInput: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    borderRadius: 8,
-  },
-  productItem: {
-    padding: 10,
+function Hit({ hit }: any) {
+  return (
+    <View style={styles2.card}>
+       <Image source={{ uri: hit.backdrop_path }} style={styles2.image} />
+       <View style={styles2.textContainer}>
+          <Text style={styles2.title}>{hit.original_title}</Text>
+          <Text style={styles2.overview}>{hit.overview}</Text>
+          <Text style={styles2.releaseDate}>{hit.release_date}</Text>
+       </View>
+       
+    </View>
+  );
+}
+
+const styles2 = StyleSheet.create({
+  card: {
+    padding: 16,
     backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
+    borderRadius: 10,  
+    shadowColor: '#000',  
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 5,  
+    marginVertical: 10,  
+    marginHorizontal: 20,
+  },
+  image: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,  
+    marginBottom: 10,
+  },
+  textContainer: {
+    padding: 8,
+  },
+  title: {
+    fontSize: 20,  
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#333',  
+  },
+  overview: {
+    fontSize: 14,
+    marginBottom: 8,
+    color: '#555',  
+  },
+  releaseDate: {
+    fontSize: 12,
+    color: '#888',
+  },
+});
+
+const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: "#252b33",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+  },
+  hitsContainer: {
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: 16,
   },
 });
