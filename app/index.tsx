@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { InstantSearch } from "react-instantsearch-core";
 import { liteClient as algoliasearch } from "algoliasearch/lite";
@@ -17,7 +16,7 @@ import {
 import InfinityHits from "@/components/InfinityHits";
 import SearchBox from "@/components/SearchBox";
 
-
+// Initialize Algolia search client
 const searchClient = algoliasearch('YNZK52PRU0', '441fe7e3eb93f5cbfd485f2aff8ae473')
 
 export default function Index() {
@@ -25,6 +24,7 @@ export default function Index() {
     <SafeAreaView style={styles.safe}>
       <StatusBar barStyle="light-content"/>
       <View style={styles.container}>
+        {/* Set up InstantSearch with Algolia client and index */}
         <InstantSearch searchClient={searchClient} indexName="movie">
           <SearchBox />
           <InfinityHits hitComponent={Hit}/>
@@ -34,6 +34,7 @@ export default function Index() {
   )
 }
 
+// Component to render individual search result
 function Hit({ hit }: any) {
   return (
     <View style={styles2.card}>
@@ -43,10 +44,10 @@ function Hit({ hit }: any) {
           <Text style={styles2.overview}>{hit.overview}</Text>
           <Text style={styles2.releaseDate}>{hit.release_date}</Text>
        </View>
-       
     </View>
   );
 }
+
 
 const styles2 = StyleSheet.create({
   card: {
@@ -87,6 +88,7 @@ const styles2 = StyleSheet.create({
   },
 });
 
+// Styles for the main container
 const styles = StyleSheet.create({
   safe: {
     flex: 1,

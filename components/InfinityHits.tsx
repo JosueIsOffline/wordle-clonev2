@@ -3,6 +3,7 @@ import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import { useInfiniteHits } from 'react-instantsearch-core';
 
 const InfinityHits = ({ hitComponent: Hit, ...props}: { hitComponent: React.ComponentType<any> }) => {
+    // Use the useInfiniteHits hook to handle infinite scrolling
     const { items, isLastPage, showMore } = useInfiniteHits({
         ...props,
         escapeHTML: false,
@@ -18,6 +19,7 @@ const InfinityHits = ({ hitComponent: Hit, ...props}: { hitComponent: React.Comp
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           onEndReachedThreshold={0.5}
           onEndReached={() => {
+            // Load more items when reaching the end of the list
             if (!isLastPage) {
               showMore();
             }
@@ -28,6 +30,7 @@ const InfinityHits = ({ hitComponent: Hit, ...props}: { hitComponent: React.Comp
             </View>
           )}
           ListFooterComponent={
+            // Show loading indicator when loading more items
             !isLoadingMore && isLastPage ? (
               <View style={styles.loader}>
                 <ActivityIndicator size="small" color="#4A90E2"/>

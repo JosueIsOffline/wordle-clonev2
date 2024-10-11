@@ -3,11 +3,13 @@ import { StyleSheet, View, TextInput, Platform } from 'react-native';
 import { useSearchBox, UseSearchBoxProps } from 'react-instantsearch-core';
 
 const SearchBox = (props: UseSearchBoxProps) => {
+    // Use the useSearchBox hook to handle search logic
     const { query, refine } = useSearchBox(props);
     const [inputValue, setInputValue] = useState(query);
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef(null);
   
+    // Update local state and refine search when query changes
     function setQuery(newQuery: string) {
       setInputValue(newQuery);
       refine(newQuery);
@@ -21,6 +23,7 @@ const SearchBox = (props: UseSearchBoxProps) => {
     const handleFocus = () => setIsFocused(true);
     const handleBlur = () => setIsFocused(false);
   
+    // Synchronize local state with InstantSearch query
     if (query !== inputValue && !isFocused) {
       setInputValue(query);
     }
@@ -74,12 +77,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3, 
-    
   },
   inputFocused: {
     borderColor: '#4A90E2', 
     shadowOpacity: 0.2, 
   },
-  });
+});
 
 export default SearchBox
