@@ -2,7 +2,11 @@ import React, { useRef, useState } from 'react';
 import { StyleSheet, View, TextInput, Platform } from 'react-native';
 import { useSearchBox, UseSearchBoxProps } from 'react-instantsearch-core';
 
-const SearchBox = (props: UseSearchBoxProps) => {
+interface SearchBoxProps extends UseSearchBoxProps {
+  onChange: (value: string) => void;
+}
+
+const SearchBox = ({ onChange, ...props}: SearchBoxProps) => {
     // Use the useSearchBox hook to handle search logic
     const { query, refine } = useSearchBox(props);
     const [inputValue, setInputValue] = useState(query);
@@ -54,6 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     paddingHorizontal: 16,
     paddingVertical: 10,
+    marginVertical: 25,
     borderRadius: 30,
     margin: 10,
     ...Platform.select({

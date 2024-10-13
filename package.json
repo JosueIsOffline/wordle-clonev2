@@ -17,6 +17,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@algolia/recommend": "^5.8.1",
     "@expo-google-fonts/frank-ruhl-libre": "^0.2.3",
     "@expo/metro-runtime": "~3.2.3",
     "@expo/vector-icons": "^14.0.2",
@@ -38,6 +39,7 @@
     "react-dom": "18.2.0",
     "react-instantsearch": "^7.13.3",
     "react-instantsearch-core": "^7.13.3",
+    "react-instantsearch-native": "^6.40.4",
     "react-native": "0.74.5",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-reanimated": "~3.10.1",
