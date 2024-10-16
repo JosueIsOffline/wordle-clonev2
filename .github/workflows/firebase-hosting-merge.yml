@@ -18,10 +18,10 @@ jobs:
       - name: Check Environment Secrets
         run: |
           echo "Verificando los secretos del environment..."
-          if [ -z "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412 }}" ]; then
-            echo "No se encontró el secret FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412 en el environment."
+          if [ -z "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PROD }}" ]; then
+            echo "No se encontró el secret FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PROD en el environment."
           else
-            echo "Se encontró el secret FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412."
+            echo "Se encontró el secret FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PROD."
           fi
         
       - uses: FirebaseExtended/action-hosting-deploy@v0
