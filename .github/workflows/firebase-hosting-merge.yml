@@ -27,7 +27,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_DEV }}
+          firebaseServiceAccount: ${{ FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PROD }}
           channelId: live
           projectId: wrodle-clonev2-3412
         env: 
