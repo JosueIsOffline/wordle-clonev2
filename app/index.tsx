@@ -39,7 +39,7 @@ export default function Index() {
       <StatusBar barStyle="light-content"/>
       <View style={styles.container} >
         {/* Set up InstantSearch with Algolia client and index */}
-        <Text>Test 4</Text>
+        <Text>Test 5</Text>
         <InstantSearch 
          searchClient={searchClient}
          indexName="movie"
