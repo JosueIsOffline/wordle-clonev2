@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, FlatList, Button, Pressable } from "react-native";
-import { useLookingSimilar } from "react-instantsearch";
+import { useLookingSimilar } from "react-instantsearch-core";
 
 interface Hit {
   objectID: string;
@@ -20,6 +20,7 @@ const CustomLookingSimilar: React.FC<CustomLookingSimilarProps> = (props) => {
     objectIDs: [props.objectID],
   });
 
+
   const renderItem = ({ item }: { item: Hit }) => (
     <View style={styles.card}>
       <Image source={{ uri: item.poster_path}} style={styles.image} />
@@ -28,6 +29,7 @@ const CustomLookingSimilar: React.FC<CustomLookingSimilarProps> = (props) => {
       <Text style={styles.overview}>{item.overview}</Text>
       <Text style={styles.releaseDate}>{item.release_date}</Text>
       </View>
+      
     </View>
   );
 
@@ -43,6 +45,7 @@ const CustomLookingSimilar: React.FC<CustomLookingSimilarProps> = (props) => {
         contentContainerStyle={{ paddingBottom: 10 }}
         showsHorizontalScrollIndicator={false}
       />
+      
     </View>
   );
 };

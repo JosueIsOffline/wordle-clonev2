@@ -12,7 +12,6 @@ import {
   useClearRefinements,
   useCurrentRefinements,
   useRefinementList,
-  
 } from 'react-instantsearch-core';
 
 interface FiltersProps {

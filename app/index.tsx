@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { InstantSearch, useLookingSimilar } from "react-instantsearch-core";
+import { InstantSearch } from "react-instantsearch-core";
 import { liteClient as algoliasearch } from "algoliasearch/lite";
 import {
   View,
@@ -20,7 +20,6 @@ import CustomLookingSimilar from "@/components/Recommendations";
 // Initialize Algolia search client
 const searchClient = algoliasearch('YNZK52PRU0', '441fe7e3eb93f5cbfd485f2aff8ae473')
 
-
 export default function Index() {
   const listRef = useRef<FlatList>(null)
 
@@ -40,6 +39,7 @@ export default function Index() {
       <StatusBar barStyle="light-content"/>
       <View style={styles.container} >
         {/* Set up InstantSearch with Algolia client and index */}
+        <Text>Test</Text>
         <InstantSearch 
          searchClient={searchClient}
          indexName="movie"
