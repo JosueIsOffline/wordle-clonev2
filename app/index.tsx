@@ -57,7 +57,6 @@ export default function Index() {
           }
         </InstantSearch>
       </View>
-      <Text>Test 6</Text>
     </SafeAreaView>
   )
 }
