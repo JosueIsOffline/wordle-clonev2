@@ -24,7 +24,7 @@ jobs:
 
       - name: Set FIREBASE_SERVICE_ACCOUNT
         run: |
-          if [ $ENVIRONMENT == "PRODUCTION" ]; then
+          if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
             echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PRODUCTION }}" >> $GITHUB_ENV
           else
             echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_development }}" >> $GITHUB_ENV
