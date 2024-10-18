@@ -35,9 +35,9 @@ jobs:
       - name: Verify environment
         run: |
           echo "Using environment: $ENVIRONMENT"
-          secret_key="FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_${{ env.ENVIRONMENT }}"
+          secret_key="FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_${{ env.ENVIRONMENT | upper }}"
           echo "Checking secret: $secret_key"
-          if [ -z "${{ secrets[secret_key | toUpper] }}" ]; then
+          if [ -z "${{ secrets[secret_key] }}" ]; then
             echo "Error: The secret for environment $ENVIRONMENT was not found."
             exit 1
           fi
