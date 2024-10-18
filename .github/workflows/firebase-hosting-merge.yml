@@ -25,8 +25,8 @@ jobs:
         run: |
           echo "Using environment: $ENVIRONMENT"
           SECRET_NAME="FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_${{ env.ENVIRONMENT }}"
-          echo "Secret name: $SECRET_NAME"  # Para depurar, puedes eliminarlo después
-          if [ -z "${{ secrets[SECRET_NAME] }}" ]; then
+          echo "Secret name: $SECRET_NAME"  # For debugging, you can remove this later
+          if [ -z "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_${{ env.ENVIRONMENT }} }}" ]; then
             echo "Error: The secret for environment $ENVIRONMENT was not found."
             exit 1
           fi
@@ -46,6 +46,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets['FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_' + env.ENVIRONMENT] }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_${{ env.ENVIRONMENT }} }} }}
           channelId: live
           projectId: ${{ env.ENVIRONMENT == 'PRODUCTION' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev' }}
