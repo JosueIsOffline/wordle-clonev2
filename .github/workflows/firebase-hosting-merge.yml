@@ -15,8 +15,16 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v4
 
+      - name: Set environment variables
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+            echo "ENVIRONMENT=PRODUCTION" >> $GITHUB_ENV
+          else 
+            echo "ENVIRONMENT=development" >> $GITHUB_ENV
+          fi
+          
       - name: Install dependencies and build
-        run: npm install && npm run build
+        run: npm ci && npm run build
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -24,7 +32,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PRODUCTION }}
           channelId: live
-          projectId: ${{ env.ENVIRONMENT == 'PRODUCTION' && 'wrodle-clonev2-3412' }}
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          
+          projectId: ${{ env.ENVIRONMENT == 'PRODUCTION' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev' }}
