@@ -9,27 +9,44 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    environment: production
     steps:
+      - name: Check out the code
       - uses: actions/checkout@v4
-      - name: Install dependencies and build
-        run: npm ci && npm run build
 
-      - name: Check Environment Secrets
+      - name: Set enviroment variables
         run: |
-          echo "Checking environment secrets..."
-          if [ -z "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PROD }}" ]; then
-            echo "The secret FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PROD was not found in the environment."
-          else
-            echo "The secret FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PROD was found."
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+            echo "ENVIRONMENT=production" >> $GITHUB_ENV
+          else 
+            echo "ENVIRONMENT=development" >> $GITHUB_ENV
+
+      - name: Verify environment
+        run: |
+          echo "Using environment: $ENVIRONMENT"
+          if [ -z "${{ secrets['FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_' + env.ENVIRONMENT | upper] }}" ]; then
+            echo "Error: The secret for environment $ENVIRONMENT was not found."
+            exit 1
           fi
+
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with: 
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+              ${{ runnner.os }}-node-
+      
+      - name: Install dependencies 
+        run: npm ci 
+
+      - name: Build the project
+        run: npm run build
         
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PROD }}
+          firebaseServiceAccount: ${{ secrets['FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_' + env.ENVIRONMENT | upper] }}
           channelId: live
-          projectId: wrodle-clonev2-3412
-        env: 
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          projectId: ${{ env.ENVIRONMENT == 'production' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev'}}
+        
       
