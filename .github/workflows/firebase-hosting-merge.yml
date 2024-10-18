@@ -45,4 +45,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets[format('FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_{0}', env.ENVIRONMENT)] }}
           channelId: live
-          projectId: ${{ env.ENVIRONMENT == 'productio
+          projectId: ${{ env.ENVIRONMENT == 'production' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev' }}
