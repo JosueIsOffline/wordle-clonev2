@@ -28,11 +28,7 @@ jobs:
           SECRET_NAME="FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_$ENVIRONMENT"
           echo "Secret name: $SECRET_NAME"  # Para depurar, puedes eliminarlo después
 
-            if [ -z "${{ secrets[SECRET_NAME] }}" ]; then
-              echo "Error: The secret for environment $ENVIRONMENT was not found."
-              exit 1
-            fi
-           echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets[SECRET_NAME] }}" >> $GITHUB_ENV
+          echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets[SECRET_NAME] }}" >> $GITHUB_ENV
 
       - name: Cache Node modules
         uses: actions/cache@v3
