@@ -21,6 +21,14 @@ jobs:
             echo "ENVIRONMENT=development" >> $GITHUB_ENV
           fi
 
+      - name: Verify environment
+        run: |
+          echo "Using environment: $ENVIRONMENT"
+          if [ -z "${{ secrets[format('FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_{0}', env.ENVIRONMENT)] }}" ]; then
+            echo "Error: The secret for environment $ENVIRONMENT was not found."
+            exit 1
+          fi
+
       - name: Cache Node modules
         uses: actions/cache@v3
         with: 
@@ -31,16 +39,6 @@ jobs:
 
       - name: Install dependencies and build
         run: npm ci && npm run build
-
-      - name: Verify environment
-        run: |
-          echo "Using environment: $ENVIRONMENT"
-          secret_key="FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_${{ env.ENVIRONMENT | upper }}"
-          echo "Checking secret: $secret_key"
-          if [ -z "${{ secrets[secret_key] }}" ]; then
-            echo "Error: The secret for environment $ENVIRONMENT was not found."
-            exit 1
-          fi
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
