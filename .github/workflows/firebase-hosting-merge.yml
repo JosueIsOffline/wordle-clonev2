@@ -14,7 +14,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set environment variables
-        id: set_env  # Establecer un ID para este paso
         run: |
           if [ "${{ github.ref }}" == "refs/heads/master" ]; then
             echo "ENVIRONMENT=PRODUCTION" >> $GITHUB_ENV
@@ -25,7 +24,7 @@ jobs:
       - name: Verify environment
         run: |
           echo "Using environment: $ENVIRONMENT"
-          if [ -z "${{ secrets['FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_' + env.ENVIRONMENT ] }}" ]; then
+          if [ -z "${{ secrets['FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_' }}$ENVIRONMENT" ]; then
             echo "Error: The secret for environment $ENVIRONMENT was not found."
             exit 1
           fi
@@ -45,6 +44,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets['FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_' + env.ENVIRONMENT ] }}
+          firebaseServiceAccount: ${{ secrets['FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_' }}$ENVIRONMENT
           channelId: live
           projectId: ${{ env.ENVIRONMENT == 'PRODUCTION' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev' }}
