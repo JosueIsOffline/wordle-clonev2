@@ -18,11 +18,9 @@ jobs:
         run: |
           if [ "${{ github.ref }}" == "refs/heads/master" ]; then
             echo "ENVIRONMENT=PRODUCTION" >> $GITHUB_ENV
-            echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PRODUCTION }}" >> $GITHUB_ENV
             echo "PROJECT_ID=wrodle-clonev2-3412" >> $GITHUB_ENV
           else 
             echo "ENVIRONMENT=development" >> $GITHUB_ENV
-            echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_DEV }}" >> $GITHUB_ENV
             echo "PROJECT_ID=wordle-clonev2-dev" >> $GITHUB_ENV
           fi
 
@@ -33,6 +31,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ env.FIREBASE_SERVICE_ACCOUNT }}
+          firebaseServiceAccount: ${{ github.ref == 'refs/heads/master' && secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_PRODUCTION || secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_DEV }}
           channelId: live
-          projectId: ${{ env.ENVIRONMENT == 'PRODUCTION' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev' }}
+          projectId: ${{ env.PROJECT_ID }}
