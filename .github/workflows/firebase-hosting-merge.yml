@@ -9,7 +9,6 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/master' && 'PRODUCTION' || 'development' }} 
     steps:
       - name: Check out the code
         uses: actions/checkout@v4
@@ -18,11 +17,18 @@ jobs:
         run: |
           if [ "${{ github.ref }}" == "refs/heads/master" ]; then
             echo "ENVIRONMENT=PRODUCTION" >> $GITHUB_ENV
-            echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PRODUCTION }}" >> $GITHUB_ENV
-            echo "PROJECT_ID=wrodle-clonev2-3412" >> $GITHUB_ENV
           else 
             echo "ENVIRONMENT=development" >> $GITHUB_ENV
-            echo "PROJECT_ID=wordle-clonev2-dev" >> $GITHUB_ENV
+          fi
+
+      - name: Verify environment
+        run: |
+          echo "Using environment: $ENVIRONMENT"
+          SECRET_NAME="FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_$ENVIRONMENT"
+          echo "Secret name: $SECRET_NAME"  # Para depurar, puedes eliminarlo después
+          if [ -z "${{ secrets[SECRET_NAME] }}" ]; then
+            echo "Error: The secret for environment $ENVIRONMENT was not found."
+            exit 1
           fi
 
       - name: Cache Node modules
@@ -31,8 +37,8 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node- 
-            
+            ${{ runner.os }}-node-
+
       - name: Install dependencies and build
         run: npm ci && npm run build
 
@@ -40,6 +46,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ env.FIREBASE_SERVICE_ACCOUNT }}
+          firebaseServiceAccount: ${{ secrets['FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_' + env.ENVIRONMENT] }}
           channelId: live
-          projectId: ${{ env.PROJECT_ID }}
+          projectId: ${{ env.ENVIRONMENT == 'PRODUCTION' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev' }}
