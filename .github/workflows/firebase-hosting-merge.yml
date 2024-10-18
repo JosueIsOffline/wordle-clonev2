@@ -22,7 +22,22 @@ jobs:
           else 
             echo "ENVIRONMENT=development" >> $GITHUB_ENV
           fi
+      - name: Set FIREBASE_SERVICE_ACCOUNT
+        run: |
+          if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
+            echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PRODUCTION }}" >> $GITHUB_ENV
+          else
+            echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_development }}" >> $GITHUB_ENV
+          fi
           
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with: 
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            
       - name: Install dependencies and build
         run: npm ci && npm run build
 
@@ -30,6 +45,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PRODUCTION }}
+          firebaseServiceAccount: ${{ env.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
           projectId: ${{ env.ENVIRONMENT == 'PRODUCTION' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev' }}
