@@ -17,17 +17,9 @@ jobs:
       - name: Set environment variables
         run: |
           if [ "${{ github.ref }}" == "refs/heads/master" ]; then
-            echo "ENVIRONMENT=PRODUCTION" >> $GITHUB_ENV
-          else 
-            echo "ENVIRONMENT=development" >> $GITHUB_ENV
-          fi
-
-      - name: Set FIREBASE_SERVICE_ACCOUNT
-        run: |
-          if [ "$ENVIRONMENT" == "PRODUCTION" ]; then
             echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_PRODUCTION }}" >> $GITHUB_ENV
-          else
-            echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_development }}" >> $GITHUB_ENV
+          else 
+             echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_development }}" >> $GITHUB_ENV
           fi
 
       - name: Cache Node modules
