@@ -28,6 +28,8 @@ jobs:
           SECRET_NAME="FIREBASE_SERVICE_ACCOUNT_WRODLE_CLONEV2_3412_$ENVIRONMENT"
           echo "Secret name: $SECRET_NAME"  # Para depurar, puedes eliminarlo después
 
+          echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets[SECRET_NAME] }}" >> $GITHUB_ENV
+
       - name: Cache Node modules
         uses: actions/cache@v3
         with: 
@@ -43,7 +45,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets[$SECRET_NAME] }}
+          firebaseServiceAccount: ${{ env.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
           projectId: ${{ env.ENVIRONMENT == 'PRODUCTION' && 'wrodle-clonev2-3412' || 'wordle-clonev2-dev' }}
         
