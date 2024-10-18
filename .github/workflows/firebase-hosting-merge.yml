@@ -16,7 +16,7 @@ jobs:
       - name: Set environment variables
         run: |
           if [ "${{ github.ref }}" == "refs/heads/master" ]; then
-            echo "ENVIRONMENT=production" >> $GITHUB_ENV
+            echo "ENVIRONMENT=PRODUCTION" >> $GITHUB_ENV
           else 
             echo "ENVIRONMENT=development" >> $GITHUB_ENV
           fi
