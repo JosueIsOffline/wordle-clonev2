@@ -6,6 +6,7 @@
 export const GREEN = '#60AB55';
 export const YELLOW = '#BCAD4C';
 export const DARK = '#787c7e';
+export const RED = '#c40b0b'
 
 export const Colors = {
   light: {

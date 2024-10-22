@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "625472040479",
+    "project_id": "wrodle-clonev2-3412",
+    "storage_bucket": "wrodle-clonev2-3412.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625472040479:android:bbeeaddcb7f6172229af2a",
+        "android_client_info": {
+          "package_name": "com.josueisoffline.wordleclonev2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwIT9Q2Lvi74CVwaihQIED2_Jn6i3DgqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
