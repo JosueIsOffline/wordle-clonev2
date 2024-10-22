@@ -9,9 +9,9 @@ on:
       environment:
         description: 'Select the environment to deploy'
         required: true
-        default: 'production'
+        default: 'PRODUCTION'
         options:
-          - production
+          - PRODUCTION
           - development
           
 jobs:
