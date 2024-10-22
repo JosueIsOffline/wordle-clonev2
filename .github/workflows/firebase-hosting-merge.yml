@@ -10,6 +10,7 @@ on:
         description: 'Select the environment to deploy'
         required: true
         default: 'PRODUCTION'
+        type: choice
         options:
           - PRODUCTION
           - development
