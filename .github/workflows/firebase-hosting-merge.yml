@@ -37,11 +37,11 @@ jobs:
       - name: Set Firebase projectId and channelId
         run: |
           if [ "${{ inputs.environment }}" == "production" ]; then
-            echo "PROJECT_ID=your-production-project-id" >> $GITHUB_ENV
+            echo "PROJECT_ID=wrodle-clonev2-3412" >> $GITHUB_ENV
             echo "CHANNEL_ID=live" >> $GITHUB_ENV
           else
-            echo "PROJECT_ID=your-development-project-id" >> $GITHUB_ENV
-            echo "CHANNEL_ID=preview" >> $GITHUB_ENV
+            echo "PROJECT_ID=wrodle-clonev2-3412" >> $GITHUB_ENV
+            echo "CHANNEL_ID=development" >> $GITHUB_ENV
           fi
 
       - name: Deploy to Firebase Hosting
